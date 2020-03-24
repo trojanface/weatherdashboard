@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Dashboard</title>
+    <script src="https://kit.fontawesome.com/690c0f0a79.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
@@ -13,29 +14,42 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <!--The search bar & history-->
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Search for a City:</h5>
-                        <form class="form-inline">
-                            <div class="form-group mx-sm-3 mb-2">
-                              <input type="text" class="form-control">
-                            </div>
-                            <button type="submit" class="btn btn-primary mb-2">C</button>
-                          </form>
+                <!--The search bar-->
+                <div class="row">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Search for a City:</h5>
+                            <form class="form-inline">
+                                <div class="form-group mx-sm-3 mb-2">
+                                    <input type="text" class="form-control">
+                                </div>
+                                <button type="submit" class="btn btn-primary mb-2"><i
+                                        class="fas fa-search"></i></button>
+                            </form>
+                        </div>
                     </div>
+                </div>
+                <!--The search history-->
+                <div id="searchHistory" class="row">
+
                 </div>
             </div>
             <div class="col-md-8">
                 <!--The city details-->
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the card's content.</p>
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
+                        <h5 class="card-title">City Name</h5>
+                        <div id="todayDiv" class="row">
+                            <!--Recieves dynamically generated city details-->
+
+                        </div>
+                        <div class="row">
+                            <h5>5-Day Forecast</h5>
+                        </div>
+                        <div id="forecastDiv" class="row">
+                            <!--Recieves dynamically generated 5 day forecast (use cards nested in cols)-->
+
+                        </div>
                     </div>
                 </div>
             </div>
