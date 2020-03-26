@@ -1,3 +1,5 @@
+regenerateHistory();
+
 $("#searchBar").on("submit", function () {
     event.preventDefault();
 
@@ -48,11 +50,14 @@ function addToHistory(location) {
 function regenerateHistory(loadArray) {
     $("#searchHistory").empty();
     if (localStorage.getItem("prevCities") !== null) {
+        if (loadArray == null) {
+            loadArray = JSON.parse(localStorage.getItem("prevCities"));
+        }
         for (var i = 0; i < loadArray.length; i++) {
             let newRow = $("<div class='row'>");
-            let newCol = $("<div class='col'>");
-            let newButton = $("<button class='btn btn-primary mb-2'>" + loadArray[i] + "</button>");//will need to make a custome css class to set width 100%
-            $("#searchHistory").append(newRow);
+            let newCol = $("<div class='col-md-12'>");
+            let newButton = $("<button class='btn btn-primary mb-2'>" + loadArray[i] + "</button>");
+                        $("#searchHistory").append(newRow);
             $(newRow).append(newCol);
             $(newCol).append(newButton);
         }
