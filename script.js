@@ -8,14 +8,17 @@ $("#searchBar").on("submit", function () {
     let queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=2a41be6b56e8918bc7efe98c840f4638";
     $.ajax({
         url: queryURL,
-        method: "GET"
+        method: "GET",
+        success: addToHistory(cityName),
+        error: errorMessage()
+
     })
-        .then(function (response) {
-            console.log(response);
-        });
-    addToHistory(cityName);
+        
 });
 
+function errorMessage () {
+
+}
 
 function addToHistory(location) {
     var savedCities;
@@ -26,11 +29,8 @@ function addToHistory(location) {
         for (var i = 0; i < savedCities.length; i++) {//check for duplicates
             if (location == savedCities[i]) {
                 var holdingCity = savedCities[i];
-                console.log(savedCities);
                 savedCities.splice(i,1); 
-                console.log(savedCities);
                 savedCities.unshift(holdingCity);
-                console.log(savedCities);
                 foundMatch = true;
             }
         }
