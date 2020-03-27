@@ -53,6 +53,8 @@ function getUVIndex (locationData) {
 function addToHistory(location, recievedData) {
     //Updates the City Details
     $("#cityName").text(recievedData.name);
+    var weatherIcon = $("<img src='https://openweathermap.org/img/wn/"+recievedData.weather[0].icon+".png'>");
+    $("#cityName").append(weatherIcon);
     $("#cityTemp").text("Temperature: " + (recievedData.main.temp - 273.15).toFixed(0) + "°");
     $("#cityHumid").text("Humidity: " + recievedData.main.humidity);
     $("#cityWind").text("Wind Speed: " + recievedData.wind.speed);
