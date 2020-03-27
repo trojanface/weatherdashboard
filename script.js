@@ -2,9 +2,17 @@ regenerateHistory();
 
 $("#searchBar").on("submit", function () {
     event.preventDefault();
+getWeatherData($("#searchText").val());
+    
+});
 
-    console.log($("#searchText").val());
-    let cityName = $("#searchText").val();
+$("#searchHistory").on("click", ".historyButton", function () {
+    console.log($(this).attr("data-value"));
+   getWeatherData($(this).attr("data-value"));
+});
+
+function getWeatherData (searchCity) {
+    let cityName = searchCity;
     let queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=2a41be6b56e8918bc7efe98c840f4638";
     $.ajax({
         url: queryURL,
@@ -19,10 +27,9 @@ $("#searchBar").on("submit", function () {
 
     })
 
-});
+}
 
-
-function getUVIndex (locationData) {
+function getUVIndex(locationData) {
     $.ajax({
         type: 'GET',
         dataType: 'json',
@@ -40,26 +47,27 @@ function getUVIndex (locationData) {
                     uvClass = "highUV";
                 }
             }
-            var uvSpan = $("<span class='"+uvClass+"'>"+uvData.result.uv+"</span>")
+            var uvSpan = $("<span class='" + uvClass + "'>" + uvData.result.uv + "</span>")
             $("#cityUV").text("UV Index: ");
             $("#cityUV").append(uvSpan);
-        } ,
-        error: function () {
-            console.log("Could not find location - UVApi");
+        },
+        error: function (uvData) {
+            //console.log(uvData);
+            console.log("There was an error - UVApi - "+uvData.responseText);
         }
     })
 }
 
 function addToHistory(location, recievedData) {
     //Updates the City Details
-    $("#cityName").text(recievedData.name+" ("+moment().format("dddd") + ", " + moment().format("MMMM Do")+")");
-    var weatherIcon = $("<img src='https://openweathermap.org/img/wn/"+recievedData.weather[0].icon+".png'>");
+    $("#cityName").text(recievedData.name + " (" + moment().format("dddd") + ", " + moment().format("MMMM Do") + ")");
+    var weatherIcon = $("<img src='https://openweathermap.org/img/wn/" + recievedData.weather[0].icon + ".png'>");
     $("#cityName").append(weatherIcon);
     $("#cityTemp").text("Temperature: " + (recievedData.main.temp - 273.15).toFixed(0) + "°");
     $("#cityHumid").text("Humidity: " + recievedData.main.humidity);
     $("#cityWind").text("Wind Speed: " + recievedData.wind.speed);
     getUVIndex(recievedData);
-    
+
 
     //Updates the History
     var savedCities;
@@ -97,7 +105,7 @@ function regenerateHistory(loadArray) {
         for (var i = 0; i < loadArray.length; i++) {
             let newRow = $("<div class='row'>");
             let newCol = $("<div class='col-md-12'>");
-            let newButton = $("<button class='btn btn-primary mb-2'>" + loadArray[i] + "</button>");
+            let newButton = $("<button class='historyButton btn btn-primary mb-2' data-value=\""+loadArray[i]+"\">" + loadArray[i] + "</button>");
             $("#searchHistory").append(newRow);
             $(newRow).append(newCol);
             $(newCol).append(newButton);
