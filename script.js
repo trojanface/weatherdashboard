@@ -3,15 +3,15 @@ regenerateHistory();
 
 $("#searchBar").on("submit", function () {
     event.preventDefault();
-getWeatherData($("#searchText").val());
-    
+    getWeatherData($("#searchText").val());
+
 });
 
 $("#searchHistory").on("click", ".historyButton", function () {
-   getWeatherData($(this).attr("data-value"));
+    getWeatherData($(this).attr("data-value"));
 });
 
-function getWeatherData (searchCity) {
+function getWeatherData(searchCity) {
     let cityName = searchCity;
     let queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=2a41be6b56e8918bc7efe98c840f4638";
     $.ajax({
@@ -29,7 +29,7 @@ function getWeatherData (searchCity) {
 
 }
 
-function getWeatherForecast (searchCity) {
+function getWeatherForecast(searchCity) {
     let cityName = searchCity;
     let queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=2a41be6b56e8918bc7efe98c840f4638";
     $.ajax({
@@ -71,61 +71,63 @@ function getUVIndex(locationData) {
         },
         error: function (uvData) {
             //console.log(uvData);
-            console.log("There was an error - UVApi - "+uvData.responseText);
+            console.log("There was an error - UVApi - " + uvData.responseText);
         }
     })
 }
 function updateForecast(location, recievedData) {
     $("#forecastDiv").empty();
-//Creates the 5 day forecast
-for (var i = 0; i < 5; i++) {
-    var newCol = $("<div class='col-xl'>");
-    var newCard = $("<div class='card'>");
-    var newBod = $("<div class='card-body'><h6>"+moment().add(1+i, 'days').format('DD/MM/YYYY')+"<img src='https://openweathermap.org/img/wn/" + recievedData.list[3+(i*8)].weather[0].icon + ".png'>"+"</h6><p>Temp: "+(recievedData.list[3+(i*8)].main.temp-273.15).toFixed(0) + "°</p><p>Humidity: "+recievedData.list[3+(i*8)].main.humidity+"</p></div>");
-    
-    $("#forecastDiv").append(newCol);
-    $(newCol).append(newCard);
-    $(newCard).append(newBod);
+    //Creates the 5 day forecast
+    for (var i = 0; i < 5; i++) {
+        var newCol = $("<div class='col-xl'>");
+        var newCard = $("<div class='card'>");
+        var newBod = $("<div class='card-body'><h6>" + moment().add(1 + i, 'days').format('DD/MM/YYYY') + "<img src='https://openweathermap.org/img/wn/" + recievedData.list[3 + (i * 8)].weather[0].icon + ".png'>" + "</h6><p>Temp: " + (recievedData.list[3 + (i * 8)].main.temp - 273.15).toFixed(0) + "°</p><p>Humidity: " + recievedData.list[3 + (i * 8)].main.humidity + "</p></div>");
 
-}
+        $("#forecastDiv").append(newCol);
+        $(newCol).append(newCard);
+        $(newCard).append(newBod);
+
+    }
 }
 
 
 function addToHistory(location, recievedData) {
-    //Updates the City Details
-    $("#cityName").text(recievedData.name + " (" + moment().format("dddd") + ", " + moment().format("MMMM Do") + ")");
-    var weatherIcon = $("<img src='https://openweathermap.org/img/wn/" + recievedData.weather[0].icon + ".png'>");
-    $("#cityName").append(weatherIcon);
-    $("#cityTemp").text("Temperature: " + (recievedData.main.temp - 273.15).toFixed(0) + "°");
-    $("#cityHumid").text("Humidity: " + recievedData.main.humidity);
-    $("#cityWind").text("Wind Speed: " + recievedData.wind.speed);
-    getUVIndex(recievedData);
+    if (recievedData != null) {
+        //Updates the City Details
+        $("#cityName").text(recievedData.name + " (" + moment().format("dddd") + ", " + moment().format("MMMM Do") + ")");
+        var weatherIcon = $("<img src='https://openweathermap.org/img/wn/" + recievedData.weather[0].icon + ".png'>");
+        $("#cityName").append(weatherIcon);
+        $("#cityTemp").text("Temperature: " + (recievedData.main.temp - 273.15).toFixed(0) + "°");
+        $("#cityHumid").text("Humidity: " + recievedData.main.humidity);
+        $("#cityWind").text("Wind Speed: " + recievedData.wind.speed);
+        getUVIndex(recievedData);
 
 
 
-    //Updates the History
-    var savedCities;
-    var foundMatch = false;
-    if (localStorage.getItem("prevCities") != null) {
-        savedCities = JSON.parse(localStorage.getItem("prevCities"));
-        for (var i = 0; i < savedCities.length; i++) {//check for duplicates
-            if (location == savedCities[i]) {
-                var holdingCity = savedCities[i];
-                savedCities.splice(i, 1);
-                savedCities.unshift(holdingCity);
-                foundMatch = true;
+        //Updates the History
+        var savedCities;
+        var foundMatch = false;
+        if (localStorage.getItem("prevCities") != null) {
+            savedCities = JSON.parse(localStorage.getItem("prevCities"));
+            for (var i = 0; i < savedCities.length; i++) {//check for duplicates
+                if (location == savedCities[i]) {
+                    var holdingCity = savedCities[i];
+                    savedCities.splice(i, 1);
+                    savedCities.unshift(holdingCity);
+                    foundMatch = true;
+                }
             }
+            if (foundMatch === false) {
+                //add location into the array.
+                savedCities.unshift(location);
+            }
+            localStorage.setItem("prevCities", JSON.stringify(savedCities));
+        } else {
+            savedCities = [location];
+            localStorage.setItem("prevCities", JSON.stringify(savedCities));
         }
-        if (foundMatch === false) {
-            //add location into the array.
-            savedCities.unshift(location);
-        }
-        localStorage.setItem("prevCities", JSON.stringify(savedCities));
-    } else {
-        savedCities = [location];
-        localStorage.setItem("prevCities", JSON.stringify(savedCities));
+        regenerateHistory(savedCities);
     }
-    regenerateHistory(savedCities);
 }
 
 function regenerateHistory(loadArray) {
@@ -137,7 +139,7 @@ function regenerateHistory(loadArray) {
         for (var i = 0; i < loadArray.length; i++) {
             let newRow = $("<div class='row'>");
             let newCol = $("<div class='col-md-12'>");
-            let newButton = $("<button class='historyButton btn btn-primary mb-2' data-value=\""+loadArray[i]+"\">" + loadArray[i] + "</button>");
+            let newButton = $("<button class='historyButton btn btn-primary mb-2' data-value=\"" + loadArray[i] + "\">" + loadArray[i] + "</button>");
             $("#searchHistory").append(newRow);
             $(newRow).append(newCol);
             $(newCol).append(newButton);
