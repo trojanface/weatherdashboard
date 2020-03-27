@@ -9,18 +9,57 @@ $("#searchBar").on("submit", function () {
     $.ajax({
         url: queryURL,
         method: "GET",
-        success: addToHistory(cityName),
-        error: errorMessage()
+        success: function (response) {
+            console.log(response);
+            addToHistory(cityName, response);
+        },
+        error: function () {
+            console.log("Could not find location - OpenApi");
+        }
 
     })
-        
+
 });
 
-function errorMessage () {
 
+function getUVIndex (locationData) {
+    $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        beforeSend: function (request) {
+            request.setRequestHeader('x-access-token', '663335dfc52559aebce59235c9106df9');
+        },
+        url: 'https://api.openuv.io/api/v1/uv?lat=' + locationData.coord.lat + '&lng=' + locationData.coord.lon,
+        success: function (uvData) {
+            if (uvData.result.uv < 3) {
+                var uvClass = "lowUV";
+            } else {
+                if (uvData.result.uv < 6) {
+                    uvClass = "medUV";
+                } else {
+                    uvClass = "highUV";
+                }
+            }
+            var uvSpan = $("<span class='"+uvClass+"'>"+uvData.result.uv+"</span>")
+            $("#cityUV").text("UV Index: ");
+            $("#cityUV").append(uvSpan);
+        } ,
+        error: function () {
+            console.log("Could not find location - UVApi");
+        }
+    })
 }
 
-function addToHistory(location) {
+function addToHistory(location, recievedData) {
+    //Updates the City Details
+    $("#cityName").text(recievedData.name);
+    $("#cityTemp").text("Temperature: " + (recievedData.main.temp - 273.15).toFixed(0) + "°");
+    $("#cityHumid").text("Humidity: " + recievedData.main.humidity);
+    $("#cityWind").text("Wind Speed: " + recievedData.wind.speed);
+    getUVIndex(recievedData);
+    
+
+    //Updates the History
     var savedCities;
     var foundMatch = false;
     if (localStorage.getItem("prevCities") != null) {
@@ -29,7 +68,7 @@ function addToHistory(location) {
         for (var i = 0; i < savedCities.length; i++) {//check for duplicates
             if (location == savedCities[i]) {
                 var holdingCity = savedCities[i];
-                savedCities.splice(i,1); 
+                savedCities.splice(i, 1);
                 savedCities.unshift(holdingCity);
                 foundMatch = true;
             }
@@ -44,7 +83,7 @@ function addToHistory(location) {
         savedCities = [location];
         localStorage.setItem("prevCities", JSON.stringify(savedCities));
     }
-     regenerateHistory(savedCities);
+    regenerateHistory(savedCities);
 }
 
 function regenerateHistory(loadArray) {
@@ -57,7 +96,7 @@ function regenerateHistory(loadArray) {
             let newRow = $("<div class='row'>");
             let newCol = $("<div class='col-md-12'>");
             let newButton = $("<button class='btn btn-primary mb-2'>" + loadArray[i] + "</button>");
-                        $("#searchHistory").append(newRow);
+            $("#searchHistory").append(newRow);
             $(newRow).append(newCol);
             $(newCol).append(newButton);
         }

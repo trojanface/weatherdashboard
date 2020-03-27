@@ -1,0 +1,9 @@
+.lowUV {
+    background-color: rgb(0, 255, 21);
+}
+.medUV {
+    background-color: #FFFF00;
+}
+.highUV{
+    background-color: rgb(255, 0, 0);
+}
