@@ -1,3 +1,4 @@
+
 regenerateHistory();
 
 $("#searchBar").on("submit", function () {
@@ -7,7 +8,6 @@ getWeatherData($("#searchText").val());
 });
 
 $("#searchHistory").on("click", ".historyButton", function () {
-    console.log($(this).attr("data-value"));
    getWeatherData($(this).attr("data-value"));
 });
 
@@ -18,8 +18,26 @@ function getWeatherData (searchCity) {
         url: queryURL,
         method: "GET",
         success: function (response) {
-            console.log(response);
             addToHistory(cityName, response);
+            getWeatherForecast(cityName);
+        },
+        error: function () {
+            console.log("Could not find location - OpenApi");
+        }
+
+    })
+
+}
+
+function getWeatherForecast (searchCity) {
+    let cityName = searchCity;
+    let queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=2a41be6b56e8918bc7efe98c840f4638";
+    $.ajax({
+        url: queryURL,
+        method: "GET",
+        success: function (response) {
+            console.log(response);
+            updateForecast(cityName, response);
         },
         error: function () {
             console.log("Could not find location - OpenApi");
@@ -57,6 +75,21 @@ function getUVIndex(locationData) {
         }
     })
 }
+function updateForecast(location, recievedData) {
+    $("#forecastDiv").empty();
+//Creates the 5 day forecast
+for (var i = 0; i < 5; i++) {
+    var newCol = $("<div class='col-xl'>");
+    var newCard = $("<div class='card'>");
+    var newBod = $("<div class='card-body'><h6>"+moment().add(1+i, 'days').format('DD/MM/YYYY')+"<img src='https://openweathermap.org/img/wn/" + recievedData.list[3+(i*8)].weather[0].icon + ".png'>"+"</h6><p>Temp: "+(recievedData.list[3+(i*8)].main.temp-273.15).toFixed(0) + "°</p><p>Humidity: "+recievedData.list[3+(i*8)].main.humidity+"</p></div>");
+    
+    $("#forecastDiv").append(newCol);
+    $(newCol).append(newCard);
+    $(newCard).append(newBod);
+
+}
+}
+
 
 function addToHistory(location, recievedData) {
     //Updates the City Details
@@ -69,12 +102,12 @@ function addToHistory(location, recievedData) {
     getUVIndex(recievedData);
 
 
+
     //Updates the History
     var savedCities;
     var foundMatch = false;
     if (localStorage.getItem("prevCities") != null) {
         savedCities = JSON.parse(localStorage.getItem("prevCities"));
-        console.log(savedCities.length);
         for (var i = 0; i < savedCities.length; i++) {//check for duplicates
             if (location == savedCities[i]) {
                 var holdingCity = savedCities[i];
@@ -88,7 +121,6 @@ function addToHistory(location, recievedData) {
             savedCities.unshift(location);
         }
         localStorage.setItem("prevCities", JSON.stringify(savedCities));
-        console.log(savedCities);
     } else {
         savedCities = [location];
         localStorage.setItem("prevCities", JSON.stringify(savedCities));
