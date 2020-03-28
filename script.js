@@ -12,6 +12,8 @@ $("#searchHistory").on("click", ".historyButton", function () {
 });
 
 function getWeatherData(searchCity) {
+    //Add city details card
+    
     let cityName = searchCity;
     let queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=2a41be6b56e8918bc7efe98c840f4638";
     $.ajax({
@@ -81,13 +83,15 @@ function updateForecast(location, recievedData) {
     for (var i = 0; i < 5; i++) {
         var newCol = $("<div class='col-xl'>");
         var newCard = $("<div class='card'>");
-        var newBod = $("<div class='card-body'><h6>" + moment().add(1 + i, 'days').format('DD/MM/YYYY') + "<img src='https://openweathermap.org/img/wn/" + recievedData.list[3 + (i * 8)].weather[0].icon + ".png'>" + "</h6><p>Temp: " + (recievedData.list[3 + (i * 8)].main.temp - 273.15).toFixed(0) + "°</p><p>Humidity: " + recievedData.list[3 + (i * 8)].main.humidity + "</p></div>");
+        var newBod = $("<div class='card-body'><h6>" + moment().add(1 + i, 'days').format('DD/MM/YYYY') + "<img src='https://openweathermap.org/img/wn/" + recievedData.list[3 + (i * 8)].weather[0].icon + ".png' alt='"+recievedData.list[3 + (i * 8)].weather[0].description+"'>" + "</h6><p>Temp: " + (recievedData.list[3 + (i * 8)].main.temp - 273.15).toFixed(0) + "°</p><p>Humidity: " + recievedData.list[3 + (i * 8)].main.humidity + "</p></div>");
 
         $("#forecastDiv").append(newCol);
         $(newCol).append(newCard);
         $(newCard).append(newBod);
 
     }
+    $("#searchCard").removeClass("col-md-12").addClass("col-md-4");
+    $("#cityDetails").show(300);
 }
 
 
@@ -95,7 +99,7 @@ function addToHistory(location, recievedData) {
     if (recievedData != null) {
         //Updates the City Details
         $("#cityName").text(recievedData.name + " (" + moment().format("dddd") + ", " + moment().format("MMMM Do") + ")");
-        var weatherIcon = $("<img src='https://openweathermap.org/img/wn/" + recievedData.weather[0].icon + ".png'>");
+        var weatherIcon = $("<img src='https://openweathermap.org/img/wn/" + recievedData.weather[0].icon + ".png' alt='"+recievedData.weather[0].description+"'>");
         $("#cityName").append(weatherIcon);
         $("#cityTemp").text("Temperature: " + (recievedData.main.temp - 273.15).toFixed(0) + "°");
         $("#cityHumid").text("Humidity: " + recievedData.main.humidity);

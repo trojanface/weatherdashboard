@@ -7,3 +7,11 @@
 .highUV{
     background-color: rgb(255, 0, 0);
 }
+
+.noCity {
+    width:100%;
+}
+
+#cityDetails {
+    display:none;
+}
