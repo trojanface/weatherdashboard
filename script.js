@@ -15,7 +15,7 @@ function getWeatherData(searchCity) {
     //Add city details card
     
     let cityName = searchCity;
-    let queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=2a41be6b56e8918bc7efe98c840f4638";
+    let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=2a41be6b56e8918bc7efe98c840f4638";
     $.ajax({
         url: queryURL,
         method: "GET",
@@ -33,7 +33,7 @@ function getWeatherData(searchCity) {
 
 function getWeatherForecast(searchCity) {
     let cityName = searchCity;
-    let queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=2a41be6b56e8918bc7efe98c840f4638";
+    let queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=2a41be6b56e8918bc7efe98c840f4638";
     $.ajax({
         url: queryURL,
         method: "GET",
