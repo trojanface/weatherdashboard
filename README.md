@@ -6,11 +6,10 @@ This is a weather dashboard that allows the user to search for a city's weather 
 # Link to Deployed Application
 [View here](https://trojanface.github.io/weatherdashboard/)
 
-# Screenshot
-Desktop Screenshot
+# Desktop Screenshot
 ![An image of the weather dashboard on desktop.](./desktop.png)
 
-Mobile Screenshot
+# Mobile Screenshot
 ![An image of the weather dashboard on mobile.](./Mobile.png)
 
 # Credits
