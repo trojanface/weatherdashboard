@@ -1,37 +1,24 @@
-## Welcome to GitHub Pages
+## Weather Dashboard
 
-You can use the [editor on GitHub](https://github.com/trojanface/weatherdashboard/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+# Description
+This is a weather dashboard that allows the user to search for a city's weather data. It provides the current data as well as a five day forecast.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+# Link to Deployed Application
+[View here](https://trojanface.github.io/weatherdashboard/)
 
-### Markdown
+# Screenshot
+Desktop Screenshot
+![An image of the weather dashboard on desktop.](./desktop.png)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Mobile Screenshot
+![An image of the weather dashboard on mobile.](./Mobile.png)
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/trojanface/weatherdashboard/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+# Credits
+HTML & CSS by Matthew Teague
+JQuery Library is the property of their creators/distributors and I claim no credit in their creation or distribution.
+Moment Library is the property of their creators/distributors and I claim no credit in their creation or distribution.
+Font Awesome is the property of their creators/distributors and I claim no credit in their creation or distribution.
+Open Weather API is the property of their creators/distributors and I claim no credit in their creation or distribution.
+Open UV API is the property of their creators/distributors and I claim no credit in their creation or distribution.
+Images are the property of their creators/distributors and I claim no credit in their creation or distribution.
+All images used are available under the Creative Commons License.

@@ -8,7 +8,7 @@
     <script src="https://kit.fontawesome.com/690c0f0a79.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -16,48 +16,58 @@
         <div class="row">
             <div id="searchCard" class="col-md-12">
                 <!--The search bar-->
-                <div class="row">
-                    <div class="noCity card">
-                        <div class="card-body">
-                            <h5 class="card-title">Search for a City:</h5>
-                            <form id="searchBar" class="form-inline">
-                                <div class="form-group mx-sm-3 mb-2">
-                                    <input id="searchText" type="text" class="form-control">
-                                </div>
-                                <button type="submit" class="btn btn-primary mb-2"><i
-                                        class="fas fa-search"></i></button>
-                            </form>
-                            <!--The search history-->
-                            <div id="searchHistory">
+                <section>
+                    <div class="row">
+                        <div class="noCity card">
+                            <div class="card-body">
+                                <h5 class="card-title">Search for a City:</h5>
+                                <form id="searchBar" class="form-inline">
+                                    <div class="form-group mx-sm-3 mb-2">
+                                        <input id="searchText" type="text" class="form-control">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mb-2"><i
+                                            class="fas fa-search"></i></button>
+                                </form>
+                                <!--The search history-->
+                                <nav>
+                                    <div id="searchHistory">
 
+                                    </div>
+                                </nav>
                             </div>
                         </div>
                     </div>
-                </div>
-
+                </section>
             </div>
             <div id="cityDetails" class="col-md-8">
                 <!--The city details-->
-                <div class="card">
-                    <div class="card-body">
-                        <h2 id="cityName" class="card-title">City Name</h2>
-                        <h6 id="cityTemp" class="card-title">Temperature</h6>
-                        <h6 id="cityHumid" class="card-title">Humidity</h6>
-                        <h6 id="cityWind" class="card-title">Wind Speed</h6>
-                        <h6 id="cityUV" class="card-title">UV Index</h6>
-                        <div id="todayDiv" class="row">
-                            <!--Recieves dynamically generated city details-->
+                <main>
+                    <div class="card">
+                        <div class="card-body">
+                            <section>
+                                <h2 id="cityName" class="card-title">City Name</h2>
+                                <h6 id="cityTemp" class="card-title">Temperature</h6>
+                                <h6 id="cityHumid" class="card-title">Humidity</h6>
+                                <h6 id="cityWind" class="card-title">Wind Speed</h6>
+                                <h6 id="cityUV" class="card-title">UV Index</h6>
+                                <div id="todayDiv" class="row">
+                                    <!--Recieves dynamically generated city details-->
 
-                        </div>
-                        <div class="row">
-                            <h5>5-Day Forecast</h5>
-                        </div>
-                        <div id="forecastDiv" class="row">
-                            <!--Recieves dynamically generated 5 day forecast (use cards nested in cols)-->
+                                </div>
+                            </section>
+                            <section>
+                                <div class="row">
+                                    <h5>5-Day Forecast</h5>
+                                </div>
 
+                                <div id="forecastDiv" class="row">
+                                    <!--Recieves dynamically generated 5 day forecast (use cards nested in cols)-->
+
+                                </div>
+                            </section>
                         </div>
                     </div>
-                </div>
+                </main>
             </div>
         </div>
     </div>

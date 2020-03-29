@@ -1,19 +1,17 @@
 
-regenerateHistory();
+regenerateHistory();//loads any previous searches from local data and dynamically displays.
 
-$("#searchBar").on("submit", function () {
+$("#searchBar").on("submit", function () {//catches when a search has been submitted and launches the api function.
     event.preventDefault();
     getWeatherData($("#searchText").val());
 
 });
 
-$("#searchHistory").on("click", ".historyButton", function () {
+$("#searchHistory").on("click", ".historyButton", function () {//calls the api based on the selected button in the history.
     getWeatherData($(this).attr("data-value"));
 });
 
-function getWeatherData(searchCity) {
-    //Add city details card
-    
+function getWeatherData(searchCity) {//api call for basic weather information.
     let cityName = searchCity;
     let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=2a41be6b56e8918bc7efe98c840f4638";
     $.ajax({
@@ -24,14 +22,14 @@ function getWeatherData(searchCity) {
             getWeatherForecast(cityName);
         },
         error: function () {
-            console.log("Could not find location - OpenApi");
+            console.log("There was an error - OpenApi");
         }
 
     })
 
 }
 
-function getWeatherForecast(searchCity) {
+function getWeatherForecast(searchCity) {//api call for weather forecast.
     let cityName = searchCity;
     let queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=2a41be6b56e8918bc7efe98c840f4638";
     $.ajax({
@@ -42,14 +40,14 @@ function getWeatherForecast(searchCity) {
             updateForecast(cityName, response);
         },
         error: function () {
-            console.log("Could not find location - OpenApi");
+            console.log("There was an error - OpenApi");
         }
 
     })
 
 }
 
-function getUVIndex(locationData) {
+function getUVIndex(locationData) {//api call for uv index.
     $.ajax({
         type: 'GET',
         dataType: 'json',
@@ -67,7 +65,7 @@ function getUVIndex(locationData) {
                     uvClass = "highUV";
                 }
             }
-            var uvSpan = $("<span class='" + uvClass + "'>" + uvData.result.uv + "</span>")
+            var uvSpan = $("<span class='" + uvClass + "'>" + uvData.result.uv + "</span>")//creates the uv index with appropriate css class.
             $("#cityUV").text("UV Index: ");
             $("#cityUV").append(uvSpan);
         },
@@ -78,8 +76,8 @@ function getUVIndex(locationData) {
     })
 }
 function updateForecast(location, recievedData) {
-    $("#forecastDiv").empty();
-    //Creates the 5 day forecast
+    $("#forecastDiv").empty();//empties any previous forecasts.
+    //Creates a new 5 day forecast
     for (var i = 0; i < 5; i++) {
         var newCol = $("<div class='col-xl'>");
         var newCard = $("<div class='card'>");
@@ -97,7 +95,7 @@ function updateForecast(location, recievedData) {
 
 function addToHistory(location, recievedData) {
     if (recievedData != null) {
-        //Updates the City Details
+        //Updates the City card Details
         $("#cityName").text(recievedData.name + " (" + moment().format("dddd") + ", " + moment().format("MMMM Do") + ")");
         var weatherIcon = $("<img src='https://openweathermap.org/img/wn/" + recievedData.weather[0].icon + ".png' alt='"+recievedData.weather[0].description+"'>");
         $("#cityName").append(weatherIcon);
@@ -113,8 +111,8 @@ function addToHistory(location, recievedData) {
         var foundMatch = false;
         if (localStorage.getItem("prevCities") != null) {
             savedCities = JSON.parse(localStorage.getItem("prevCities"));
-            for (var i = 0; i < savedCities.length; i++) {//check for duplicates
-                if (location == savedCities[i]) {
+            for (var i = 0; i < savedCities.length; i++) {//check for duplicates in history
+                if (location == savedCities[i]) { //if a duplicate is found then move it to the front of the array but do not add a new one
                     var holdingCity = savedCities[i];
                     savedCities.splice(i, 1);
                     savedCities.unshift(holdingCity);
@@ -122,11 +120,11 @@ function addToHistory(location, recievedData) {
                 }
             }
             if (foundMatch === false) {
-                //add location into the array.
+                //if a duplicate isn't found then add new location into the array.
                 savedCities.unshift(location);
             }
             localStorage.setItem("prevCities", JSON.stringify(savedCities));
-        } else {
+        } else { //if no saved data is found then create a new array and save the data.
             savedCities = [location];
             localStorage.setItem("prevCities", JSON.stringify(savedCities));
         }
@@ -135,12 +133,12 @@ function addToHistory(location, recievedData) {
 }
 
 function regenerateHistory(loadArray) {
-    $("#searchHistory").empty();
-    if (localStorage.getItem("prevCities") !== null) {
-        if (loadArray == null) {
+    $("#searchHistory").empty();//empty the history div
+    if (localStorage.getItem("prevCities") !== null) {//check if there is saved data
+        if (loadArray == null) {//check if this is the first time this function has run, if so then load saved data
             loadArray = JSON.parse(localStorage.getItem("prevCities"));
         }
-        for (var i = 0; i < loadArray.length; i++) {
+        for (var i = 0; i < loadArray.length; i++) {//creates the history buttons on the sidebar from saved data in local storage
             let newRow = $("<div class='row'>");
             let newCol = $("<div class='col-md-12'>");
             let newButton = $("<button class='historyButton btn btn-primary mb-2' data-value=\"" + loadArray[i] + "\">" + loadArray[i] + "</button>");

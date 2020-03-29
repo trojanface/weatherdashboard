@@ -1,3 +1,4 @@
+/*CSS for UV index ratings*/
 .lowUV {
     background-color: rgb(0, 255, 21);
 }
@@ -7,11 +8,11 @@
 .highUV{
     background-color: rgb(255, 0, 0);
 }
-
+/*Expands the search bar when no city has been search for yet*/
 .noCity {
     width:100%;
 }
-
+/*Hides the city details card until a city has been searched for*/
 #cityDetails {
     display:none;
 }
