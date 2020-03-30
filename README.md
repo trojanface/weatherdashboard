@@ -1,18 +1,18 @@
-## Weather Dashboard
+# Weather Dashboard
 
-# Description
+## Description
 This is a weather dashboard that allows the user to search for a city's weather data. It provides the current data as well as a five day forecast.
 
-# Link to Deployed Application
+## Link to Deployed Application
 [View here](https://trojanface.github.io/weatherdashboard/)
 
-# Desktop Screenshot
+### Desktop Screenshot
 ![An image of the weather dashboard on desktop.](./desktop.png)
 
-# Mobile Screenshot
+### Mobile Screenshot
 ![An image of the weather dashboard on mobile.](./Mobile.png)
 
-# Credits
+## Credits
 HTML & CSS by Matthew Teague
 JQuery Library is the property of their creators/distributors and I claim no credit in their creation or distribution.
 Moment Library is the property of their creators/distributors and I claim no credit in their creation or distribution.

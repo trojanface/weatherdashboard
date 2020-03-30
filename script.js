@@ -137,6 +137,9 @@ function regenerateHistory(loadArray) {
     if (localStorage.getItem("prevCities") !== null) {//check if there is saved data
         if (loadArray == null) {//check if this is the first time this function has run, if so then load saved data
             loadArray = JSON.parse(localStorage.getItem("prevCities"));
+            if (loadArray != null) {
+                getWeatherData(loadArray[0]);//Loads the last searched city
+            }
         }
         for (var i = 0; i < loadArray.length; i++) {//creates the history buttons on the sidebar from saved data in local storage
             let newRow = $("<div class='row'>");
