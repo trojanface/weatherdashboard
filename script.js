@@ -79,7 +79,7 @@ function updateForecast(location, recievedData) {
     $("#forecastDiv").empty();//empties any previous forecasts.
     //Creates a new 5 day forecast
     for (var i = 0; i < 5; i++) {
-        var newCol = $("<div class='col-xl'>");
+        var newCol = $("<div class='col-xl-4'>");
         var newCard = $("<div class='card'>");
         var iconLink = recievedData.list[3 + (i * 8)].weather[0].icon;
         var newBod = $("<div class='card-body'><h6>" + moment().add(1 + i, 'days').format('DD/MM/YYYY') + "<img src='https://openweathermap.org/img/wn/" + iconLink.substring(0,iconLink.length-1) + "d.png' alt='"+recievedData.list[3 + (i * 8)].weather[0].description+"'>" + "</h6><p>Temp: " + (recievedData.list[3 + (i * 8)].main.temp - 273.15).toFixed(0) + "°</p><p>Humidity: " + recievedData.list[3 + (i * 8)].main.humidity + "</p></div>");
