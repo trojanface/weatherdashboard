@@ -81,7 +81,8 @@ function updateForecast(location, recievedData) {
     for (var i = 0; i < 5; i++) {
         var newCol = $("<div class='col-xl'>");
         var newCard = $("<div class='card'>");
-        var newBod = $("<div class='card-body'><h6>" + moment().add(1 + i, 'days').format('DD/MM/YYYY') + "<img src='https://openweathermap.org/img/wn/" + recievedData.list[3 + (i * 8)].weather[0].icon + ".png' alt='"+recievedData.list[3 + (i * 8)].weather[0].description+"'>" + "</h6><p>Temp: " + (recievedData.list[3 + (i * 8)].main.temp - 273.15).toFixed(0) + "°</p><p>Humidity: " + recievedData.list[3 + (i * 8)].main.humidity + "</p></div>");
+        var iconLink = recievedData.list[3 + (i * 8)].weather[0].icon;
+        var newBod = $("<div class='card-body'><h6>" + moment().add(1 + i, 'days').format('DD/MM/YYYY') + "<img src='https://openweathermap.org/img/wn/" + iconLink.substring(0,iconLink.length-1) + "d.png' alt='"+recievedData.list[3 + (i * 8)].weather[0].description+"'>" + "</h6><p>Temp: " + (recievedData.list[3 + (i * 8)].main.temp - 273.15).toFixed(0) + "°</p><p>Humidity: " + recievedData.list[3 + (i * 8)].main.humidity + "</p></div>");
 
         $("#forecastDiv").append(newCol);
         $(newCol).append(newCard);
